@@ -26,13 +26,22 @@ not not2(q2,q1);
 not not3(out,q2);
 endmodule
 
-module dFF(clk,d,q);
+
+
+
+module dFF(clk,rst,d,q);
+input rst;
 input clk,d;
 output reg q;
-
 always @(posedge clk)
-        q=d;                
+    if(~rst)
+        q=d; 
+    else
+        q=1'b0;               
 endmodule
+
+
+
 
 module random_bit_generator(clk,random_bit);
     input clk;
@@ -41,13 +50,13 @@ module random_bit_generator(clk,random_bit);
     wire out1,out2;
     three_invertor_ring_counter tir1(inn,out1);
     three_invertor_ring_counter tir2(inn,out2);
-    dFF dff1(out1,out2,random_bit);
+    dFF dff1(clk,out1,out2,random_bit);
     
 endmodule
     
 module eight_bit_random_number_generator(clk,Eight_bit_random_number);
 input clk;
-output[7:1] Eight_bit_random_number;
+output[7:0] Eight_bit_random_number;
 genvar p;
 
 generate for(p=0;p<8;p=p+1)
@@ -62,7 +71,7 @@ module prime_number_checker(clk,number1,prime,done,total_clock);
 input clk;
 input[7:0] number1;
 output reg[7:0] prime;
-output reg done;
+output reg done=0;
 output reg[31:0] total_clock;
 
 reg [31:0] clk_time=1'b0;
@@ -93,6 +102,7 @@ always @(posedge clk)
             
  always @(posedge clk)
             if (counter==8'b11111111)
+                begin
                 if(factor==2'b10)
                     begin
                     prime=num1;
@@ -102,6 +112,11 @@ always @(posedge clk)
                 else
                     if(factor>2'b10)
                        start_checking=1'b1;
+                factor=1'b0;
+                counter=1'b0;
+                end
+                
+                
                       
 end
                 
@@ -109,11 +124,14 @@ end
 endmodule
   
   
-  module brute_prime_number_generator(clk,out,done,total_clk);
+  module brute_prime_number_generator(clk,out,done,total_clk,Eight_bit_random_number);
   input clk;
   output[7:0] out;
   output done;
   output [31:0] total_clk;
+  
+  output[7:0] Eight_bit_random_number;
+ 
   
   
   eight_bit_random_number_generator ebr(clk,Eight_bit_random_number);
