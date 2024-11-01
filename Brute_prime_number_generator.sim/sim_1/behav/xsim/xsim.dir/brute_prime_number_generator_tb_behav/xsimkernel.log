@@ -1,0 +1,4 @@
+Running: xsim.dir/brute_prime_number_generator_tb_behav/xsimk.exe -simmode gui -wdb brute_prime_number_generator_tb_behav.wdb -simrunnum 0 -socket 50929
+Design successfully loaded
+Design Loading Memory Usage: 8772 KB (Peak: 8772 KB)
+Design Loading CPU Usage: 31 ms

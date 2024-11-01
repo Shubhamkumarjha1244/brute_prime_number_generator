@@ -1,0 +1,10 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../Brute_prime_number_generator.srcs/sources_1/new/Brute_prime_number_generator.v" \
+"../../../../Brute_prime_number_generator.srcs/sim_1/new/brute_prime_number_generator_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
