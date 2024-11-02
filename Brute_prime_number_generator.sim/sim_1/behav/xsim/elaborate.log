@@ -9,12 +9,7 @@ Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.three_invertor_ring_counter
-Compiling module xil_defaultlib.dFF
-Compiling module xil_defaultlib.random_bit_generator
-Compiling module xil_defaultlib.eight_bit_random_number_generato...
 Compiling module xil_defaultlib.prime_number_checker
-Compiling module xil_defaultlib.brute_prime_number_generator
 Compiling module xil_defaultlib.brute_prime_number_generator_tb
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot brute_prime_number_generator_tb_behav

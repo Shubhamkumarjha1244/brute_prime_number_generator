@@ -67,12 +67,12 @@ generate for(p=0;p<8;p=p+1)
 endmodule
 
 
-module prime_number_checker(clk,number1,prime,done,total_clock);
-input clk;
+module prime_number_checker(clk,start,number1,prime,done,total_clock);
+input clk,start;
 input[7:0] number1;
-output reg[7:0] prime;
+output reg[7:0] prime=0;
 output reg done=0;
-output reg[31:0] total_clock;
+output reg[31:0] total_clock=0;
 
 reg [31:0] clk_time=1'b0;
 reg[7:0] counter=0;
@@ -82,17 +82,29 @@ reg[7:0] num1;
 
 
 always @(posedge clk)
-    clk_time=clk_time+1'b1;
+    if(start==1'b1)
+        clk_time=clk_time+1'b1;
+    else
+        begin
+        prime=0;
+        done=0;
+        total_clock=0;
+        counter=0;
+        factor=0;
+        start_checking=1;
+        end
 
 
 
 begin
 
 always @(posedge clk)
-    if(start_checking)
-        num1=number1;
+    if(start==1'b1)
+        if(start_checking)
+            num1=number1;
         
  always @(posedge clk)
+     if(start==1'b1)
         begin
             start_checking=1'b0;
             counter=counter+1;
@@ -101,13 +113,15 @@ always @(posedge clk)
         end
             
  always @(posedge clk)
+        if(start==1'b1)
             if (counter==8'b11111111)
                 begin
                 if(factor==2'b10)
                     begin
-                    prime=num1;
                     done=1'b1;
-                    total_clock=clk_time;
+                    if(prime==8'd0)
+                            prime=num1;   
+                    if(total_clock==32'd0)total_clock=clk_time;
                     end  
                 else
                     if(factor>2'b10)
@@ -124,18 +138,17 @@ end
 endmodule
   
   
-  module brute_prime_number_generator(clk,out,done,total_clk,Eight_bit_random_number);
-  input clk;
+  module brute_prime_number_generator(clk,start,out,done,total_clk);
+  input clk,start;
   output[7:0] out;
   output done;
   output [31:0] total_clk;
   
-  output[7:0] Eight_bit_random_number;
  
   
   
   eight_bit_random_number_generator ebr(clk,Eight_bit_random_number);
-  prime_number_checker pnc(clk,Eight_bit_random_number,out,done,total_clk);
+  prime_number_checker pnc(clk,start,Eight_bit_random_number,out,done,total_clk);
   endmodule
   
             
